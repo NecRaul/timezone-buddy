@@ -57,7 +57,7 @@ function setBuddy() {
       :key="name"
       :timezone="timezone"
       :user-timezone="userTimezone"
-      :name="'Buddy ' + timezone"
+      :name="name"
     />
   </div>
   <div class="set-buddy">
