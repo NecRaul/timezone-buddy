@@ -75,6 +75,7 @@ onMounted(() => {
 
 <style scoped>
 div {
+  position: relative;
   background-color: rgb(96, 62, 66);
   padding: 15px;
   border-radius: 8px;
@@ -85,6 +86,7 @@ div {
 h1 {
   color: rgb(232, 232, 232);
   font-size: 1.5em;
+  margin-top: 0px;
   margin-bottom: 10px;
 }
 
@@ -99,11 +101,5 @@ p:nth-child(4) {
 
 button {
   margin-top: 5px;
-}
-
-button .remove {
-  position: absolute;
-  color: rgb(232, 232, 232);
-  cursor: pointer;
 }
 </style>
