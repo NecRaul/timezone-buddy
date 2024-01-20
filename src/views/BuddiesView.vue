@@ -42,6 +42,7 @@ function setBuddy() {
     return
   }
   buddies.value.set(buddyName.value, buddyTimezone.value)
+  buddies.value = new Map([...buddies.value.entries()].sort((a, b) => a[1] - b[1]))
   buddyName.value = ''
   buddyTimezone.value = 0
 }
