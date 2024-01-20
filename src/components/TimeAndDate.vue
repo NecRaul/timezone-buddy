@@ -44,6 +44,10 @@ async function removeBuddy() {
   emit('removeBuddy')
 }
 
+function logout() {
+  emit('logout')
+}
+
 onMounted(() => {
   const intervalId = setInterval(updateCurrentTime, 1000)
   onBeforeUnmount(() => clearInterval(intervalId))
@@ -65,6 +69,7 @@ onMounted(() => {
     </p>
     <p v-else>This is (you)</p>
     <button v-if="!isUser" @click="removeBuddy" class="remove">Remove Buddy</button>
+    <button v-else @click="logout" class="remove">Log Out</button>
   </div>
 </template>
 

@@ -4,6 +4,7 @@ import router from '@/router'
 import TimeAndDate from '@/components/TimeAndDate.vue'
 import { ref, onMounted } from 'vue'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { getAuth, signOut } from 'firebase/auth'
 
 const uid = router.currentRoute.value.query.uid
 
@@ -63,6 +64,14 @@ function removeBuddy(removedName) {
   console.log(buddies.value)
 }
 
+async function logout() {
+  const auth = getAuth()
+  await signOut(auth).catch((error) => {
+    console.log(error.message)
+  })
+  router.push({ name: 'Login' })
+}
+
 onMounted(async () => {
   const docSnap = await getDoc(doc(db, 'users', uid))
   if (docSnap.exists()) {
@@ -77,7 +86,7 @@ onMounted(async () => {
 
 <template>
   <div class="user-container">
-    <TimeAndDate :timezone="userTimezone" :is-user="true" name="(you)" />
+    <TimeAndDate :timezone="userTimezone" :is-user="true" name="(you)" @logout="logout" />
   </div>
   <div class="buddy-container">
     <TimeAndDate
