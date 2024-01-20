@@ -15,17 +15,18 @@ const password = ref('')
 const msg = ref()
 
 async function authenticate(provider) {
+  let data
   msg.value = ''
   try {
     switch (provider) {
       case 'email':
-        await signInWithEmailAndPassword(auth, email.value, password.value)
+        data = await signInWithEmailAndPassword(auth, email.value, password.value)
         break
       case 'anonymous':
-        await signInAnonymously(auth)
+        data = await signInAnonymously(auth)
         break
       case 'google':
-        await signInWithPopup(auth, new GoogleAuthProvider())
+        data = await signInWithPopup(auth, new GoogleAuthProvider())
         break
       case 'register':
         router.push({ name: 'Register' })
@@ -34,7 +35,7 @@ async function authenticate(provider) {
         router.push({ name: 'Reset' })
         return
     }
-    // route to buddies
+    router.push({ name: 'Buddies', query: { uid: data.user.uid } })
   } catch (error) {
     msg.value = error.message
   }
@@ -51,6 +52,5 @@ async function authenticate(provider) {
     <p><button @click="authenticate('anonymous')">Sign In Anonymously</button></p>
     <p><button @click="authenticate('register')">Register</button></p>
     <p><button @click="authenticate('reset')">Forgot Password?</button></p>
-    <TimeAndDate id="user" :timezone="userTimeZoneOffSet" :isUser="true" name="(you)" />
   </div>
 </template>

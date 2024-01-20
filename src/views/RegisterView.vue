@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router'
 import { ref } from 'vue'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
@@ -9,8 +10,8 @@ const msg = ref()
 
 async function register() {
   await createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      // route to buddies
+    .then((data) => {
+      router.push({ name: 'Buddies', query: { uid: data.user.uid } })
     })
     .catch((error) => {
       msg.value = error.message
