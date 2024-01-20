@@ -9,9 +9,13 @@ const userTimezone = new Date().getTimezoneOffset() / -60
     <TimeAndDate :timezone="userTimezone" :is-user="true" name="(you)" />
   </div>
   <div class="buddy-container">
-    <TimeAndDate :timezone="-1" :userTimezone="userTimezone" name="Buddy 1" />
-    <TimeAndDate :timezone="0" :userTimezone="userTimezone" name="Buddy 1" />
-    <TimeAndDate :timezone="1" :userTimezone="userTimezone" name="Buddy 1" />
+    <TimeAndDate
+      v-for="timezone in Array.from({ length: 11 }, (_, index) => index - 5)"
+      :key="timezone"
+      :timezone="timezone"
+      :user-timezone="userTimezone"
+      :name="'Buddy ' + (timezone + 6)"
+    />
   </div>
 </template>
 
