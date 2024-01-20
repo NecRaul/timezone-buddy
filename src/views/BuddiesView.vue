@@ -66,9 +66,9 @@ function removeBuddy(removedName) {
 onMounted(async () => {
   const docSnap = await getDoc(doc(db, 'users', uid))
   if (docSnap.exists()) {
-    Object.entries(docSnap.data().buddies).forEach(([name, timezone]) =>
-      buddies.value.set(name, timezone)
-    )
+    Object.entries(docSnap.data().buddies)
+      .sort((a, b) => a[1] - b[1])
+      .forEach(([name, timezone]) => buddies.value.set(name, timezone))
   } else {
     console.error('Data is all gone!')
   }
