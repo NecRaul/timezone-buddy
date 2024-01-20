@@ -1,15 +1,19 @@
 <script setup>
 import router from '@/router'
 import { useUidStore } from '@/stores/uid'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
   getAuth,
+  setPersistence,
+  browserLocalPersistence,
+  signInWithEmailAndPassword,
   signInAnonymously,
-  GoogleAuthProvider,
   signInWithPopup,
-  signInWithEmailAndPassword
+  GoogleAuthProvider,
+  onAuthStateChanged
 } from 'firebase/auth'
 
+const uidStore = useUidStore()
 const auth = getAuth()
 const email = ref('')
 const password = ref('')
@@ -21,13 +25,19 @@ async function authenticate(provider) {
   try {
     switch (provider) {
       case 'email':
-        data = await signInWithEmailAndPassword(auth, email.value, password.value)
+        await setPersistence(auth, browserLocalPersistence).then(async () => {
+          data = await signInWithEmailAndPassword(auth, email.value, password.value)
+        })
         break
       case 'anonymous':
-        data = await signInAnonymously(auth)
+        await setPersistence(auth, browserLocalPersistence).then(async () => {
+          data = await signInAnonymously(auth)
+        })
         break
       case 'google':
-        data = await signInWithPopup(auth, new GoogleAuthProvider())
+        await setPersistence(auth, browserLocalPersistence).then(async () => {
+          data = await signInWithPopup(auth, new GoogleAuthProvider())
+        })
         break
       case 'register':
         router.push({ name: 'Register' })
@@ -36,13 +46,21 @@ async function authenticate(provider) {
         router.push({ name: 'Reset' })
         return
     }
-    const uidStore = useUidStore()
     uidStore.setUid(data.user.uid)
     router.push({ name: 'Buddies' })
   } catch (error) {
     msg.value = error.message
   }
 }
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('ABC')
+      uidStore.setUid(user.uid)
+      router.push({ name: 'Buddies' })
+    }
+  })
+})
 </script>
 
 <template>
