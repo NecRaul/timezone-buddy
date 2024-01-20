@@ -4,6 +4,34 @@ import { ref } from 'vue'
 
 const userTimezone = new Date().getTimezoneOffset() / -60
 
+const timezoneOptions = {
+  '-12': 'GMT-12:00 (International Date Line West)',
+  '-11': 'GMT-11:00 (Midway Island, Samoa)',
+  '-10': 'GMT-10:00 (Hawaii)',
+  '-9': 'GMT-09:00 (Alaska)',
+  '-8': 'GMT-08:00 (Pacific Time)',
+  '-7': 'GMT-07:00 (Mountain Time)',
+  '-6': 'GMT-06:00 (Central Time)',
+  '-5': 'GMT-05:00 (Eastern Time)',
+  '-4': 'GMT-04:00 (Atlantic Time)',
+  '-3': 'GMT-03:00 (Greenland, Brasilia)',
+  '-2': 'GMT-02:00 (Mid-Atlantic)',
+  '-1': 'GMT-01:00 (Azores)',
+  0: 'GMT±00:00 (Greenwich Mean Time)',
+  1: 'GMT+01:00 (Central European Time)',
+  2: 'GMT+02:00 (Eastern European Time)',
+  3: 'GMT+03:00 (Moscow, Arabia Standard Time)',
+  4: 'GMT+04:00 (Azerbaijan Standard Time)',
+  5: 'GMT+05:00 (Pakistan Standard Time)',
+  6: 'GMT+06:00 (Kazakhstan Time)',
+  7: 'GMT+07:00 (Indochina Time)',
+  8: 'GMT+08:00 (China Standard Time)',
+  9: 'GMT+09:00 (Japan Standard Time)',
+  10: 'GMT+10:00 (Australian Eastern Time)',
+  11: 'GMT+11:00 (Solomon Islands Time)',
+  12: 'GMT+12:00 (New Zealand Standard Time)'
+}
+
 const buddies = ref(new Map())
 const buddyName = ref('')
 const buddyTimezone = ref('0')
@@ -29,18 +57,18 @@ function setBuddy() {
       :key="name"
       :timezone="timezone"
       :user-timezone="userTimezone"
-      :name="'Buddy ' + (timezone + 6)"
+      :name="'Buddy ' + timezone"
     />
   </div>
   <div class="set-buddy">
     <input type="text" v-model="buddyName" placeholder="Buddy" />
     <select v-model="buddyTimezone">
       <option
-        v-for="timezone in Array.from({ length: 11 }, (_, index) => index - 5)"
-        :key="timezone"
-        :value="timezone"
+        v-for="timezone in Object.entries(timezoneOptions).sort((a, b) => a[0] - b[0])"
+        :key="timezone[0]"
+        :value="timezone[0]"
       >
-        {{ timezone }}
+        {{ timezone[1] }}
       </option>
     </select>
     <button @click="setBuddy">Add/Update Buddy</button>
