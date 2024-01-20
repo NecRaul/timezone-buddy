@@ -1,5 +1,10 @@
 <script setup>
+import { db } from '@/main'
+import router from '@/router'
 import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { updateDoc, deleteField, doc } from 'firebase/firestore'
+
+const uid = router.currentRoute.value.query.uid
 
 const props = defineProps({
   timezone: Number,
@@ -32,7 +37,10 @@ function updateCurrentTime() {
 
 const { emit } = getCurrentInstance()
 
-function removeBuddy() {
+async function removeBuddy() {
+  await updateDoc(doc(db, 'users', uid), {
+    [`buddies.${props.name}`]: deleteField()
+  })
   emit('removeBuddy')
 }
 
