@@ -4,9 +4,7 @@ A website for tracking the timezones of you and your buddies™.
 
 I have a lot of buddies™ from USA and different countries. I can keep track of timezone of my EU friends because I know what their offset it from GMT+0, but my USA buddies™ use EST/CST/PST etc. which I don't know off the top of my head. So this is the solution to my problems and it will be the solution to your problems too!
 
-## Website
-
-Coming soon™.
+## [Website](https://timezone-buddy.pages.dev/)
 
 ## Run it locally
 
@@ -21,7 +19,7 @@ npm run dev
 
 ## Stack
 
-* **Vue** - Overall
+* **Vue** - Main
 * **Vue Router** - Routing/SPA
 * **Pinia** - State Management
 * **Firebase** - Authentication
