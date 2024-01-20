@@ -55,10 +55,15 @@ async function setBuddy() {
     }
   }
   await setDoc(doc(db, 'users', uid), docData, { merge: true })
-  buddies.value.set(buddyName.value, buddyTimezone.value)
-  buddies.value = new Map([...buddies.value.entries()].sort((a, b) => a[1] - b[1]))
-  buddyName.value = ''
-  buddyTimezone.value = 0
+    .then(() => {
+      buddies.value.set(buddyName.value, buddyTimezone.value)
+      buddies.value = new Map([...buddies.value.entries()].sort((a, b) => a[1] - b[1]))
+      buddyName.value = ''
+      buddyTimezone.value = 0
+    })
+    .catch((error) => {
+      console.error(error.message)
+    })
 }
 
 function removeBuddy(removedName) {
@@ -67,22 +72,30 @@ function removeBuddy(removedName) {
 
 async function logout() {
   const auth = getAuth()
-  await signOut(auth).catch((error) => {
-    console.error(error.message)
-  })
-  uidStore.resetUid()
-  router.push({ name: 'Login' })
+  await signOut(auth)
+    .then(() => {
+      uidStore.resetUid()
+      router.push({ name: 'Login' })
+    })
+    .catch((error) => {
+      console.error(error.message)
+    })
 }
 
 onMounted(async () => {
-  const docSnap = await getDoc(doc(db, 'users', uid))
-  if (docSnap.exists()) {
-    Object.entries(docSnap.data().buddies)
-      .sort((a, b) => a[1] - b[1])
-      .forEach(([name, timezone]) => buddies.value.set(name, timezone))
-  } else {
-    console.error('Data is all gone!')
-  }
+  await getDoc(doc(db, 'users', uid))
+    .then((docSnap) => {
+      if (docSnap.exists()) {
+        Object.entries(docSnap.data().buddies)
+          .sort((a, b) => a[1] - b[1])
+          .forEach(([name, timezone]) => buddies.value.set(name, timezone))
+      } else {
+        console.error('Data is all gone!')
+      }
+    })
+    .catch((error) => {
+      console.error(error.message)
+    })
 })
 </script>
 

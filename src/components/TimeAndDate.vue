@@ -42,7 +42,12 @@ async function removeBuddy() {
   await updateDoc(doc(db, 'users', uid), {
     [`buddies.${props.name}`]: deleteField()
   })
-  emit('removeBuddy')
+    .then(() => {
+      emit('removeBuddy')
+    })
+    .catch((error) => {
+      console.error(error.message)
+    })
 }
 
 function logout() {
