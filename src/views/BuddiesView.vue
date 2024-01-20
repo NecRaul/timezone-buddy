@@ -1,12 +1,14 @@
 <script setup>
 import { db } from '@/main'
 import router from '@/router'
+import { useUidStore } from '@/stores/uid'
 import TimeAndDate from '@/components/TimeAndDate.vue'
 import { ref, onMounted } from 'vue'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { getAuth, signOut } from 'firebase/auth'
 
-const uid = router.currentRoute.value.query.uid
+const uidStore = useUidStore()
+const uid = uidStore.getUid()
 
 const userTimezone = new Date().getTimezoneOffset() / -60
 
