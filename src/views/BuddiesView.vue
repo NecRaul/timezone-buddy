@@ -55,7 +55,7 @@ function setBuddy() {
     <TimeAndDate
       v-for="[name, timezone] in buddies"
       :key="name"
-      :timezone="timezone"
+      :timezone="parseInt(timezone)"
       :user-timezone="userTimezone"
       :name="name"
     />
