@@ -46,6 +46,11 @@ function setBuddy() {
   buddyName.value = ''
   buddyTimezone.value = 0
 }
+
+function removeBuddy(removedName) {
+  buddies.value = new Map([...buddies.value.entries()].filter(([name]) => name !== removedName))
+  console.log(buddies.value)
+}
 </script>
 
 <template>
@@ -59,6 +64,7 @@ function setBuddy() {
       :timezone="parseInt(timezone)"
       :user-timezone="userTimezone"
       :name="name"
+      @removeBuddy="removeBuddy(name)"
     />
   </div>
   <div class="set-buddy">

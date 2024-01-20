@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 const props = defineProps({
   timezone: Number,
@@ -30,6 +30,12 @@ function updateCurrentTime() {
   currentTime.value = getCurrentTime(props.timezone)
 }
 
+const { emit } = getCurrentInstance()
+
+function removeBuddy() {
+  emit('removeBuddy')
+}
+
 onMounted(() => {
   const intervalId = setInterval(updateCurrentTime, 1000)
   onBeforeUnmount(() => clearInterval(intervalId))
@@ -50,6 +56,7 @@ onMounted(() => {
       <template v-else> This buddy lives in the same timezone as you. </template>
     </p>
     <p v-else>This is (you)</p>
+    <button v-if="!isUser" @click="removeBuddy" class="remove">Remove Buddy</button>
   </div>
 </template>
 
@@ -75,5 +82,15 @@ p {
 
 p:nth-child(4) {
   font-weight: bold;
+}
+
+button {
+  margin-top: 5px;
+}
+
+button .remove {
+  position: absolute;
+  color: rgb(232, 232, 232);
+  cursor: pointer;
 }
 </style>
