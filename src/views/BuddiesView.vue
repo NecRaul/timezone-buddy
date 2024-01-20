@@ -5,7 +5,14 @@ const userTimezone = new Date().getTimezoneOffset() / -60
 </script>
 
 <template>
-  <div><TimeAndDate id="user" :timezone="userTimezone" :is-user="true" name="(you)" /></div>
+  <div class="user-container">
+    <TimeAndDate :timezone="userTimezone" :is-user="true" name="(you)" />
+  </div>
+  <div class="buddy-container">
+    <TimeAndDate :timezone="-1" :userTimezone="userTimezone" name="Buddy 1" />
+    <TimeAndDate :timezone="0" :userTimezone="userTimezone" name="Buddy 1" />
+    <TimeAndDate :timezone="1" :userTimezone="userTimezone" name="Buddy 1" />
+  </div>
 </template>
 
 <style scoped></style>
