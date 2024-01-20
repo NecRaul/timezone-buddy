@@ -1,6 +1,5 @@
 <script setup>
 import router from '@/router'
-import { useUidStore } from '@/stores/uid'
 import { ref } from 'vue'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
@@ -11,10 +10,10 @@ const msg = ref()
 
 async function register() {
   await createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then((data) => {
-      const uidStore = useUidStore()
-      uidStore.setUid(data.user.uid)
-      router.push({ name: 'Buddies' })
+    .then(async () => {
+      msg.value = 'Your Account Was Registered'
+      await new Promise((r) => setTimeout(r, 5000))
+      router.push({ name: 'Login' })
     })
     .catch((error) => {
       msg.value = error.message
