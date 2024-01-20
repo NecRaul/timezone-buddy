@@ -69,7 +69,7 @@ onMounted(() => {
     </p>
     <p v-else>This is (you)</p>
     <button v-if="!isUser" @click="removeBuddy" class="remove">Remove Buddy</button>
-    <button v-else @click="logout" class="remove">Log Out</button>
+    <button v-else @click="logout" class="remove">Logout</button>
   </div>
 </template>
 
