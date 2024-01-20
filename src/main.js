@@ -2,6 +2,7 @@ import '@/assets/stylesheet.css'
 import App from './App.vue'
 import router from './router'
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
@@ -22,5 +23,6 @@ export const db = getFirestore(firebase)
 const app = createApp(App)
 
 app.use(router)
+app.use(createPinia())
 
 app.mount('#app')
