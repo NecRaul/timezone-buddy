@@ -1,6 +1,11 @@
 <script setup>
+import { db } from '@/main'
+import router from '@/router'
 import TimeAndDate from '@/components/TimeAndDate.vue'
 import { ref } from 'vue'
+import { doc, setDoc } from 'firebase/firestore'
+
+const uid = router.currentRoute.value.query.uid
 
 const userTimezone = new Date().getTimezoneOffset() / -60
 
@@ -36,11 +41,17 @@ const buddies = ref(new Map())
 const buddyName = ref('')
 const buddyTimezone = ref('0')
 
-function setBuddy() {
+async function setBuddy() {
   if (buddyName.value == '') {
     alert('Buddy name cannot be empty!')
     return
   }
+  const docData = {
+    buddies: {
+      [buddyName.value]: buddyTimezone.value
+    }
+  }
+  await setDoc(doc(db, 'users', uid), docData, { merge: true })
   buddies.value.set(buddyName.value, buddyTimezone.value)
   buddies.value = new Map([...buddies.value.entries()].sort((a, b) => a[1] - b[1]))
   buddyName.value = ''
