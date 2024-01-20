@@ -70,6 +70,7 @@ async function logout() {
   await signOut(auth).catch((error) => {
     console.error(error.message)
   })
+  uidStore.resetUid()
   router.push({ name: 'Login' })
 }
 
