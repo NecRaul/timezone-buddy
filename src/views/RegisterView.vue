@@ -14,7 +14,7 @@ async function register() {
     .then((data) => {
       const uidStore = useUidStore()
       uidStore.setUid(data.user.uid)
-      router.push({ name: 'Buddies', query: { uid: data.user.uid } })
+      router.push({ name: 'Buddies' })
     })
     .catch((error) => {
       msg.value = error.message
