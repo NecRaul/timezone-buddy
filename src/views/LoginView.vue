@@ -1,4 +1,5 @@
 <script setup>
+import router from '../router'
 import { ref } from 'vue'
 import {
   getAuth,
@@ -27,7 +28,7 @@ async function authenticate(provider) {
         await signInWithPopup(auth, new GoogleAuthProvider())
         break
       case 'register':
-        // route to register
+        router.push({ name: 'Register' })
         return
       case 'reset':
         // route to reset password
