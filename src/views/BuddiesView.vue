@@ -2,8 +2,8 @@
 import { db } from '@/main'
 import router from '@/router'
 import TimeAndDate from '@/components/TimeAndDate.vue'
-import { ref } from 'vue'
-import { doc, setDoc } from 'firebase/firestore'
+import { ref, onMounted } from 'vue'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 const uid = router.currentRoute.value.query.uid
 
@@ -62,6 +62,17 @@ function removeBuddy(removedName) {
   buddies.value = new Map([...buddies.value.entries()].filter(([name]) => name !== removedName))
   console.log(buddies.value)
 }
+
+onMounted(async () => {
+  const docSnap = await getDoc(doc(db, 'users', uid))
+  if (docSnap.exists()) {
+    Object.entries(docSnap.data().buddies).forEach(([name, timezone]) =>
+      buddies.value.set(name, timezone)
+    )
+  } else {
+    console.error('Data is all gone!')
+  }
+})
 </script>
 
 <template>
