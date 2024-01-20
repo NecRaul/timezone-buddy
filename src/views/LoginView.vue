@@ -13,21 +13,26 @@ import {
 const auth = getAuth()
 const email = ref('')
 const password = ref('')
+const uid = ref('')
 const msg = ref()
 
 async function authenticate(provider) {
-  let data
   msg.value = ''
   try {
     switch (provider) {
       case 'email':
-        data = await signInWithEmailAndPassword(auth, email.value, password.value)
+        uid.value = (await signInWithEmailAndPassword(auth, email.value, password.value)).user.uid
         break
       case 'anonymous':
-        data = await signInAnonymously(auth)
+        if (localStorage.getItem('anonUid')) {
+          uid.value = localStorage.getItem('anonUid')
+          break
+        }
+        uid.value = (await signInAnonymously(auth)).user.uid
+        localStorage.setItem('anonUid', uid.value)
         break
       case 'google':
-        data = await signInWithPopup(auth, new GoogleAuthProvider())
+        uid.value = (await signInWithPopup(auth, new GoogleAuthProvider())).user.uid
         break
       case 'register':
         router.push({ name: 'Register' })
@@ -37,7 +42,7 @@ async function authenticate(provider) {
         return
     }
     const uidStore = useUidStore()
-    uidStore.setUid(data.user.uid)
+    uidStore.setUid(uid.value)
     router.push({ name: 'Buddies' })
   } catch (error) {
     msg.value = error.message
