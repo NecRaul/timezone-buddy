@@ -1,5 +1,5 @@
 <script setup>
-import router from '../router'
+import router from '@/router'
 import { ref } from 'vue'
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth'
 

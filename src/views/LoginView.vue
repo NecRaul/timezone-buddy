@@ -1,5 +1,5 @@
 <script setup>
-import router from '../router'
+import router from '@/router'
 import { ref } from 'vue'
 import {
   getAuth,
@@ -51,5 +51,6 @@ async function authenticate(provider) {
     <p><button @click="authenticate('anonymous')">Sign In Anonymously</button></p>
     <p><button @click="authenticate('register')">Register</button></p>
     <p><button @click="authenticate('reset')">Forgot Password?</button></p>
+    <TimeAndDate id="user" :timezone="userTimeZoneOffSet" :isUser="true" name="(you)" />
   </div>
 </template>
