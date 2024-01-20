@@ -1,5 +1,6 @@
 <script setup>
 import router from '@/router'
+import { useUidStore } from '@/stores/uid'
 import { ref } from 'vue'
 import {
   getAuth,
@@ -35,6 +36,8 @@ async function authenticate(provider) {
         router.push({ name: 'Reset' })
         return
     }
+    const uidStore = useUidStore()
+    uidStore.setUid(data.user.uid)
     router.push({ name: 'Buddies', query: { uid: data.user.uid } })
   } catch (error) {
     msg.value = error.message
