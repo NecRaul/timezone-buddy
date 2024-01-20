@@ -1,10 +1,11 @@
 <script setup>
 import { db } from '@/main'
-import router from '@/router'
+import { useUidStore } from '@/stores/uid'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { updateDoc, deleteField, doc } from 'firebase/firestore'
 
-const uid = router.currentRoute.value.query.uid
+const uidStore = useUidStore()
+const uid = uidStore.getUid()
 
 const props = defineProps({
   timezone: Number,
