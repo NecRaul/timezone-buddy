@@ -61,13 +61,12 @@ async function setBuddy() {
 
 function removeBuddy(removedName) {
   buddies.value = new Map([...buddies.value.entries()].filter(([name]) => name !== removedName))
-  console.log(buddies.value)
 }
 
 async function logout() {
   const auth = getAuth()
   await signOut(auth).catch((error) => {
-    console.log(error.message)
+    console.error(error.message)
   })
   router.push({ name: 'Login' })
 }
