@@ -15,4 +15,20 @@ const userTimezone = new Date().getTimezoneOffset() / -60
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.user-container,
+.buddy-container {
+  margin: 1% auto;
+}
+
+.user-container {
+  width: 600px;
+  margin-top: 2%;
+}
+
+.buddy-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  margin-bottom: 2%;
+}
+</style>
