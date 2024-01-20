@@ -31,7 +31,7 @@ async function authenticate(provider) {
         router.push({ name: 'Register' })
         return
       case 'reset':
-        // route to reset password
+        router.push({ name: 'Reset' })
         return
     }
     // route to buddies
