@@ -55,7 +55,6 @@ async function authenticate(provider) {
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log('ABC')
       uidStore.setUid(user.uid)
       router.push({ name: 'Buddies' })
     }
